@@ -9,3 +9,5 @@ $manifest['description'] = __( 'This extension lets you set up daily, weekly or 
 $manifest['version'] = '1.0.0';
 $manifest['display'] = true;
 $manifest['standalone'] = true;
+
+$manifest['github_update'] = 'ThemeFuse/Unyson-Backup-Extension';
