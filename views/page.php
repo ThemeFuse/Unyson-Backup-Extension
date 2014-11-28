@@ -50,7 +50,7 @@ foreach ( $backup->cron()->get_cron_job_list() as $cron_job ) {
 		<?php foreach ( $inactive as $cron_job ): ?>
 			<div class="backup-alert error below-h2">
 				<p><strong><?php _e( 'Important', 'fw' ) ?>
-						:</strong> <?php echo strtr( __( 'No %s schedule created yet!', 'fw' ),
+						:</strong> <?php echo sprintf( __( 'No %s schedule created yet!', 'fw' ),
 						'<em>' . esc_html( $cron_job->get_title() ) . '</em>' ) ?></p>
 			</div>
 		<?php endforeach ?>
@@ -60,7 +60,7 @@ foreach ( $backup->cron()->get_cron_job_list() as $cron_job ) {
 				<p>
 					<a href="<?php echo esc_html( $backup->action()->url_backup_unschedule( $cron_job->get_id() ) ) ?>"
 					   class="backup-icon-remove"></a>
-					<strong><?php echo strtr( __( '% schedule active', 'fw' ), esc_html( $cron_job->get_title() ) ) ?>
+					<strong><?php echo sprintf( __( '% schedule active', 'fw' ), esc_html( $cron_job->get_title() ) ) ?>
 						:</strong>
 					<?php echo $cron_job->get_schedule_title() ?> |
 					<?php echo $backup->get_storage( $cron_job->get_storage(),
@@ -84,7 +84,7 @@ foreach ( $backup->cron()->get_cron_job_list() as $cron_job ) {
 
 			<?php foreach ( $backup_now as $cron_job ): ?>
 				<a href="<?php echo esc_attr( $backup->action()->url_backup_now( $cron_job->get_id() ) ) ?>"
-				   class="button" data-action="backup-spinner"><?php echo strtr( __( 'Create %s Now', 'fw' ),
+				   class="button" data-action="backup-spinner"><?php echo sprintf( __( 'Create %s Now', 'fw' ),
 						$cron_job->get_title() ) ?></a>
 			<?php endforeach ?>
 
