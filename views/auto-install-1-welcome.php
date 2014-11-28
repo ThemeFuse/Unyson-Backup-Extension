@@ -27,7 +27,7 @@ $demo_page_link = $backup->get_config('demo_page_link');
 
 	<div class="error">
 		<p>
-			<strong><?php _e('Important', 'fw') ?>:</strong> <?php _e('The demo content <strong>will replace</strong> all of your content (i.e. all of your content <strong>will be deleted</strong>).', 'fw') ?>
+			<strong><?php _e('Important', 'fw') ?>:</strong> <?php printf(__('The demo content %s will replace %s all of your content (i.e. all of your content %s will be deleted %s).', 'fw'), '<strong>', '</strong>', '<strong>', '</strong>') ?>
 		</p>
 	</div>
 
