@@ -106,7 +106,7 @@ die('<h1>Forbidden</h1>');
 
 EOF;
 		    if (@file_put_contents("$backup_dir/index.php", $index) === false) {
-			    throw new FW_Backup_Exception(__('Cannot create local wp-content/uploads/backup/index.php file. Not enough permissions?', 'fw'));
+			    throw new FW_Backup_Exception( sprintf( __('Cannot create %s local file. Not enough permissions?', 'fw'), 'wp-content/uploads/backup/index.php' ) );
 		    }
 	    }
 
@@ -122,7 +122,7 @@ Deny from all
 EOF;
 
 		    if (@file_put_contents("$backup_dir/.htaccess", $htaccess) === false) {
-			    throw new FW_Backup_Exception(__('Cannot create local wp-content/uploads/backup/.htaccess file. Not enough permissions?', 'fw'));
+			    throw new FW_Backup_Exception( sprintf( __('Cannot create %s local file. Not enough permissions?', 'fw'), 'wp-content/uploads/backup/index.php' ) );
 		    }
 	    }
 
