@@ -343,7 +343,14 @@ class FW_Backup_Helper_Database
 
 		// Fix database
 		if ($fix_foreign_database) {
-			$helper->fix_foreign_database(array(site_url() => $before['siteurl']), $foreign_prefix);
+			$helper->fix_foreign_database( array(
+				site_url()                                                                 => $before['siteurl'],
+				site_url() . '/'                                                           => $before['siteurl'] . '/',
+				fw_get_url_without_scheme( site_url() . '/' )                              => fw_get_url_without_scheme( $before['siteurl'] . '/' ),
+				str_replace( '/', '\/', fw_get_url_without_scheme( site_url() . '/' ) )    => str_replace( '/', '\/', fw_get_url_without_scheme( $before['siteurl'] . '/' ) ),
+				str_replace( '/', '\\\/', fw_get_url_without_scheme( site_url() . '/' ) )  => str_replace( '/', '\\\/', fw_get_url_without_scheme( $before['siteurl'] . '/' ) ),
+				str_replace( '/', '\\\\/', fw_get_url_without_scheme( site_url() . '/' ) ) => str_replace( '/', '\\\\/', fw_get_url_without_scheme( $before['siteurl'] . '/' ) ),
+			), $foreign_prefix );
 		}
 
 		wp_cache_flush();
