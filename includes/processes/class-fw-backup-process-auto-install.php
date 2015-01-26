@@ -38,7 +38,7 @@ class FW_Backup_Process_Auto_Install
 				$fs->rmdir($t);
 			}
 
-			$db->import("$auto_install_dir/database.sql", true, true, true);
+			$db->import("$auto_install_dir/database.txt", true, true, true);
 		}
 		catch (FW_Backup_Exception $exception) {
 			FW_Flash_Messages::add('auto-install', $exception->getMessage(), 'error');

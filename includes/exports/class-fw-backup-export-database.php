@@ -31,7 +31,7 @@ class FW_Backup_Export_Database implements FW_Backup_Interface_Export
 		try {
 
 			$sql_file = $this->export_sql($feedback);
-			$zip->addFile($sql_file, 'database.sql');
+			$zip->addFile($sql_file, 'database.txt');
 
 			$feedback->set_task(__('Compressing...', 'fw'));
 			$zip->close();

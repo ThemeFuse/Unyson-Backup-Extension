@@ -17,7 +17,7 @@
  *
  * on restore:
  * 1) all files will be replaced with files from backup-site2.zip
- * 2) database.sql will be imported and all site2_ prefixed will be changed to site1_
+ * 2) database.txt will be imported and all site2_ prefixed will be changed to site1_
  * 3) wp-config.php should be preserved, otherwise prefix will be site2_ instead of site1_
  */
 class FW_Backup_Process_Restore
@@ -94,9 +94,9 @@ class FW_Backup_Process_Restore
 				// Extract archive into temporary location
 				unzip_file($zip_file, $wp_new);
 
-				// Get rid of database.sql file, if any
-				if ($wp_filesystem->exists("$wp_new/database.sql")) {
-					$wp_filesystem->delete("$wp_new/database.sql");
+				// Get rid of database.txt file, if any
+				if ($wp_filesystem->exists("$wp_new/database.txt")) {
+					$wp_filesystem->delete("$wp_new/database.txt");
 				}
 
 				// In imported backup files wp-config.php can contain database
@@ -118,7 +118,7 @@ class FW_Backup_Process_Restore
 
 			// Restore database
 			if ($backup_info->has_db()) {
-				$fp_db = $zip->getStream('database.sql');
+				$fp_db = $zip->getStream('database.txt');
 				$db->import_fp($fp_db, false, $backup_info->is_imported(), false);
 				fclose($fp_db);
 			}

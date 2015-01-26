@@ -17,7 +17,7 @@ class FW_Backup_Export_Full implements FW_Backup_Interface_Export
             }
 
             $fs->append_zip($zip, ABSPATH, '', $feedback);
-            $zip->addFile($tmp_file[] = $db->export_sql($feedback), 'database.sql');
+            $zip->addFile($tmp_file[] = $db->export_sql($feedback), 'database.txt');
 
             $feedback->set_task(__('Compressing files...', 'fw'));
             $zip->close();

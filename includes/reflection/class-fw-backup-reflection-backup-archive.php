@@ -34,7 +34,7 @@ class FW_Backup_Reflection_Backup_Archive
 			$content['fs'] = true;
 		}
 
-		if ($zip->statName('database.sql') !== false) {
+		if ($zip->statName('database.txt') !== false) {
 			$content['db'] = true;
 		}
 
@@ -42,7 +42,7 @@ class FW_Backup_Reflection_Backup_Archive
 			return $content;
 		}
 
-		$s =  '/auto-install/database.sql';
+		$s =  '/auto-install/database.txt';
 		for ($index = 0; $index < $zip->numFiles; ++$index) {
 			$name = $zip->getNameIndex($index);
 			if (substr($name, -strlen($s)) === $s) {

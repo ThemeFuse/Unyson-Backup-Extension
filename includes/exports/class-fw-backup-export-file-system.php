@@ -14,6 +14,10 @@ class FW_Backup_Export_File_System
         $backup = fw()->extensions->get('backup');
 
 	    $exclude[] = $backup->get_backup_dir();
+
+	    $upload_dir = wp_upload_dir();
+	    $exclude[]  = $upload_dir['basedir'] . '/fw-style.css';
+
         list ($file_list, $file_size) = $fs->file_list_exclude($root, $exclude);
 
         $feedback->set_task(sprintf(__('%d file(s) found [%s]', 'fw'), count($file_list), $fs->format_bytes(array_sum($file_size))));
