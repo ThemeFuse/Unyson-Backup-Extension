@@ -38,7 +38,15 @@ class FW_Backup_Process_Auto_Install
 				$fs->rmdir($t);
 			}
 
-			$db->import("$auto_install_dir/database.txt", true, true, true);
+			//Provides possibility to make the import from the file 'database.txt' and 'database.sql'
+			{
+				if ( file_exists( "$auto_install_dir/database.txt" ) ) {
+					$file_with_sql = "$auto_install_dir/database.txt";
+				} else {
+					$file_with_sql = "$auto_install_dir/database.sql";
+				}
+			}
+			$db->import($file_with_sql, true, true, true);
 		}
 		catch (FW_Backup_Exception $exception) {
 			FW_Flash_Messages::add('auto-install', $exception->getMessage(), 'error');
