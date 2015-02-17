@@ -24,7 +24,7 @@ class FW_Backup_Menu
 			remove_submenu_page('tools.php', 'import.php');
 			remove_submenu_page('tools.php', 'export.php');
 
-			add_management_page(__('Auto Install', 'fw'), __('Auto Install', 'fw'), 'manage_options', 'auto-install', array($this, '_auto_install_page'));
+			add_management_page(__('Content Install', 'fw'), __('Content Install', 'fw'), 'manage_options', 'auto-install', array($this, '_auto_install_page'));
 		}
 	}
 

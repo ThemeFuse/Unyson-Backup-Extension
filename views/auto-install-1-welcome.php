@@ -33,7 +33,6 @@ $demo_page_link = $backup->get_config('demo_page_link');
 
 	<p>
 		<a href="<?php echo esc_attr($backup->action()->url_backup_auto_install()) ?>" onclick="return window.confirm('<?php _e('All your current content will be deleted and replaced with the demo content of the theme!', 'fw'); ?>');" class="button button-primary"><?php _e('Import Demo Content', 'fw') ?></a>
-		<a href="<?php echo esc_attr(admin_url()) ?>" class="button"><?php _e('Skip Import (Not Recommended)', 'fw') ?></a>
 	</p>
 
 </div>

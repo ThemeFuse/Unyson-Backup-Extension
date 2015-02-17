@@ -19,7 +19,7 @@ $theme_name = fw()->theme->manifest->get_name();
 		echo $backup->get_request_filesystem_credentials();
 
 		$backup->render('restore-popup', array(
-			'title' => __('Auto-install in Progress', 'fw'),
+			'title' => __('Content Install in Progress', 'fw'),
 			'subtitle' => __("We are currently configuring your template to look like our demo.\nThis may take up to a few minutes.", 'fw'),
 		));
 
