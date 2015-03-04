@@ -51,49 +51,49 @@ class FW_Backup_Helper_File_System
 		return $ret;
 	}
 
-    public function file_list_exclude($base, $exclude = array())
-    {
-        // normalize $root
-        $base = realpath($base);
-        $base = str_replace('/', DIRECTORY_SEPARATOR, $base);
+	public function file_list_exclude($base, $exclude = array())
+	{
+		// normalize $root
+		$base = realpath($base);
+		$base = str_replace('/', DIRECTORY_SEPARATOR, $base);
 
-        // normalize $exclude
-        $tmp = array();
-        foreach ($exclude as $value) {
-            $tmp[] = str_replace('/', DIRECTORY_SEPARATOR, $value);
-        }
-        $exclude = $tmp;
+		// normalize $exclude
+		$tmp = array();
+		foreach ($exclude as $value) {
+			$tmp[] = str_replace('/', DIRECTORY_SEPARATOR, $value);
+		}
+		$exclude = $tmp;
 
-        // FIXME not enough permissions to some dirs ( ! ) Warning: scandir(/path/to/dir): failed to open dir: Permission denied
-        $file_list = array();
-        $file_size = array();
-        foreach ($this->file_list($base, true) as $file) {
+		// FIXME not enough permissions to some dirs ( ! ) Warning: scandir(/path/to/dir): failed to open dir: Permission denied
+		$file_list = array();
+		$file_size = array();
+		foreach ($this->file_list($base, true) as $file) {
 
-            // do not include $root into archive
-            if ($file == $base) {
-                continue;
-            }
+			// do not include $root into archive
+			if ($file == $base) {
+				continue;
+			}
 
-            // exclude files starting with prefix listed in $exclude
-            foreach ($exclude as $value) {
-                if (strpos($file, $value) === 0) {
-                    continue 2;
-                }
-            }
+			// exclude files starting with prefix listed in $exclude
+			foreach ($exclude as $value) {
+				if (strpos($file, $value) === 0) {
+					continue 2;
+				}
+			}
 
-            // standard error message lacks $file
-            if (($size = filesize($file)) === false) {
-                trigger_error("\n\n\n$file\n\n\n");
-            }
-            else {
-                $file_list[] = $file;
-                $file_size[] = $size;
-            }
+			// standard error message lacks $file
+			if (($size = filesize($file)) === false) {
+				trigger_error("\n\n\n$file\n\n\n");
+			}
+			else {
+				$file_list[] = $file;
+				$file_size[] = $size;
+			}
 
-        }
+		}
 
-        return array($file_list, $file_size);
-    }
+		return array($file_list, $file_size);
+	}
 
 	// http://stackoverflow.com/a/2510459
 	public function format_bytes($bytes, $precision = 2)
@@ -111,33 +111,33 @@ class FW_Backup_Helper_File_System
 		return round($bytes, $precision).' '.$units[$pow];
 	}
 
-    public function append_zip(ZipArchive $zip, $file_list, $root, $local_prefix, FW_Backup_Interface_Feedback $feedback)
-    {
-        $feedback->set_task(__('Adding files to archive...', 'fw'), count($file_list));
+	public function append_zip(ZipArchive $zip, $file_list, $root, $local_prefix, FW_Backup_Interface_Feedback $feedback)
+	{
+		$feedback->set_task(__('Adding files to archive...', 'fw'), count($file_list));
 
-        foreach ($file_list as $index => $file) {
-	        $local_name = substr($file, strlen($root));
-	        // $root = /var/www
-	        // $file = /var/www/index.php
-	        // $local_name = /index.php
-	        $local_name = ltrim($local_name, DIRECTORY_SEPARATOR);
-	        $local_name = $local_prefix . $local_name;
-	        // fix for Windows
-	        $local_name = str_replace('\\', '/', $local_name);
-            if (is_dir($file)) {
-                $zip->addEmptyDir($local_name);
-            }
-            else {
-                if (is_readable($file)) {
-                    $zip->addFile($file, $local_name);
-                }
-                else {
-                    // $log->append("error: could not read file $file");
-                }
-            }
-            $feedback->set_progress($index);
-        }
-    }
+		foreach ($file_list as $index => $file) {
+			$local_name = substr($file, strlen($root));
+			// $root = /var/www
+			// $file = /var/www/index.php
+			// $local_name = /index.php
+			$local_name = ltrim($local_name, DIRECTORY_SEPARATOR);
+			$local_name = $local_prefix . $local_name;
+			// fix for Windows
+			$local_name = str_replace('\\', '/', $local_name);
+			if (is_dir($file)) {
+				$zip->addEmptyDir($local_name);
+			}
+			else {
+				if (is_readable($file)) {
+					$zip->addFile($file, $local_name);
+				}
+				else {
+					// $log->append("error: could not read file $file");
+				}
+			}
+			$feedback->set_progress($index);
+		}
+	}
 
 
 

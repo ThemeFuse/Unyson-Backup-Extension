@@ -51,95 +51,95 @@ class FW_Backup_Export_Database implements FW_Backup_Interface_Export
 		return $zip_file;
 	}
 
-    public function export_sql(FW_Backup_Interface_Feedback $feedback, $options_where = "WHERE option_name NOT LIKE 'fw_backup.%%'", $exclude_table = array())
-    {
-        /**
-         * @var FW_Extension_Backup $backup
-         */
+	public function export_sql(FW_Backup_Interface_Feedback $feedback, $options_where = "WHERE option_name NOT LIKE 'fw_backup.%%'", $exclude_table = array())
+	{
+		/**
+		 * @var FW_Extension_Backup $backup
+		 */
 
-        global $wpdb, $table_prefix;
+		global $wpdb, $table_prefix;
 
-        $db = new FW_Backup_Helper_Database();
-        $backup = fw()->extensions->get('backup');
+		$db = new FW_Backup_Helper_Database();
+		$backup = fw()->extensions->get('backup');
 
-        $filename = sprintf('%s/backup-database-%s.sql', sys_get_temp_dir(), date('Y_m_d-H_i_s'));
-        $fp = fopen($filename, 'w');
+		$filename = sprintf('%s/backup-database-%s.sql', sys_get_temp_dir(), date('Y_m_d-H_i_s'));
+		$fp = fopen($filename, 'w');
 
-        $feedback->set_task(__('Querying database...', 'fw'));
+		$feedback->set_task(__('Querying database...', 'fw'));
 
-        list($table_list, $view_list) = $db->query_schema();
+		list($table_list, $view_list) = $db->query_schema();
 
-        $feedback->set_task(sprintf(__('%d tables found', 'fw'), count($table_list)));
-        $feedback->set_task(sprintf(__('%d views found', 'fw'), count($view_list)));
+		$feedback->set_task(sprintf(__('%d tables found', 'fw'), count($table_list)));
+		$feedback->set_task(sprintf(__('%d views found', 'fw'), count($view_list)));
 
-        $create_table_list = array_map(array($db, 'show_create_table'), $table_list);
-        $create_view_list = array_map(array($db, 'show_create_view'), $view_list);
+		$create_table_list = array_map(array($db, 'show_create_table'), $table_list);
+		$create_view_list = array_map(array($db, 'show_create_view'), $view_list);
 
-        $feedback->set_task(__('Writing meta info...', 'fw'));
+		$feedback->set_task(__('Writing meta info...', 'fw'));
 
-	    // After all headers should come empty line. This is necessary
-	    // for be able to run the following code with expected result:
-	    //
-	    //     $headers = $this->get_headers_fp()
-	    //     $db->foreach_statement($fp, FW_Backup_Callable::make(array($this, '_query'), $headers, $db));
+		// After all headers should come empty line. This is necessary
+		// for be able to run the following code with expected result:
 		//
-	    fwrite($fp, '-- date: ' . current_time('mysql') . PHP_EOL);
-	    fwrite($fp, '-- table_prefix: ' . $table_prefix . PHP_EOL);
-	    fwrite($fp, PHP_EOL.PHP_EOL);
+		//     $headers = $this->get_headers_fp()
+		//     $db->foreach_statement($fp, FW_Backup_Callable::make(array($this, '_query'), $headers, $db));
+		//
+		fwrite($fp, '-- date: ' . current_time('mysql') . PHP_EOL);
+		fwrite($fp, '-- table_prefix: ' . $table_prefix . PHP_EOL);
+		fwrite($fp, PHP_EOL.PHP_EOL);
 
-	    $a = array_combine($table_list, $create_table_list);
-	    $a = array_diff_key($a, array_flip($exclude_table));
+		$a = array_combine($table_list, $create_table_list);
+		$a = array_diff_key($a, array_flip($exclude_table));
 
-        $feedback->set_task(__('Dumping tables...', 'fw'), count($a));
+		$feedback->set_task(__('Dumping tables...', 'fw'), count($a));
 
-        $first = true;
-        $index = 0;
-        foreach ($a as $table => $create_table) {
+		$first = true;
+		$index = 0;
+		foreach ($a as $table => $create_table) {
 
-            $feedback->set_progress($index, $table);
+			$feedback->set_progress($index, $table);
 
-            fwrite($fp, ($first ? $first = false : PHP_EOL.PHP_EOL));
-            fwrite($fp, $db->close_mysql_statement($create_table));
+			fwrite($fp, ($first ? $first = false : PHP_EOL.PHP_EOL));
+			fwrite($fp, $db->close_mysql_statement($create_table));
 
-            // get rid of backup history as well as backup settings
-            switch ($table) {
-            case $wpdb->posts:
-                $query = sprintf('SELECT * FROM %s WHERE post_type != %s',
-                    $db->escape_mysql_identifier($table),
-                    $db->escape_mysql_value($backup->post_type()->get_post_type())
-                );
-                break;
-            case $wpdb->postmeta:
-                $query = sprintf('SELECT a.* FROM %s AS a INNER JOIN %s AS b WHERE a.post_id = b.ID AND b.post_type != %s',
-                    $db->escape_mysql_identifier($table),
-                    $db->escape_mysql_identifier($wpdb->posts),
-                    $db->escape_mysql_value($backup->post_type()->get_post_type())
-                );
-                break;
-            case $wpdb->options:
-                $query = sprintf("SELECT * FROM %s $options_where",
-                    $db->escape_mysql_identifier($table)
-                );
-                break;
-            default:
-                $query = sprintf('SELECT * FROM %s', $db->escape_mysql_identifier($table));
-                break;
-            }
+			// get rid of backup history as well as backup settings
+			switch ($table) {
+			case $wpdb->posts:
+				$query = sprintf('SELECT * FROM %s WHERE post_type != %s',
+					$db->escape_mysql_identifier($table),
+					$db->escape_mysql_value($backup->post_type()->get_post_type())
+				);
+				break;
+			case $wpdb->postmeta:
+				$query = sprintf('SELECT a.* FROM %s AS a INNER JOIN %s AS b WHERE a.post_id = b.ID AND b.post_type != %s',
+					$db->escape_mysql_identifier($table),
+					$db->escape_mysql_identifier($wpdb->posts),
+					$db->escape_mysql_value($backup->post_type()->get_post_type())
+				);
+				break;
+			case $wpdb->options:
+				$query = sprintf("SELECT * FROM %s $options_where",
+					$db->escape_mysql_identifier($table)
+				);
+				break;
+			default:
+				$query = sprintf('SELECT * FROM %s', $db->escape_mysql_identifier($table));
+				break;
+			}
 
-            $db->dump_query($fp, $query, $table);
-            $feedback->set_progress(++$index, $table);
-        }
+			$db->dump_query($fp, $query, $table);
+			$feedback->set_progress(++$index, $table);
+		}
 
-        $feedback->set_task(__('Dumping views...', 'fw'));
+		$feedback->set_task(__('Dumping views...', 'fw'));
 
-        foreach ($create_view_list as $create_view) {
-            fwrite($fp, ($first ? $first = false : PHP_EOL.PHP_EOL));
-            fwrite($fp, $db->close_mysql_statement($create_view));
-        }
+		foreach ($create_view_list as $create_view) {
+			fwrite($fp, ($first ? $first = false : PHP_EOL.PHP_EOL));
+			fwrite($fp, $db->close_mysql_statement($create_view));
+		}
 
-        fclose($fp);
-        return $filename;
-    }
+		fclose($fp);
+		return $filename;
+	}
 
 	public function import_sql_file($file, $exclude_table = array())
 	{

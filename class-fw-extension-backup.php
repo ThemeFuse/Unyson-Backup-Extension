@@ -121,9 +121,9 @@ class FW_Extension_Backup extends FW_Extension
 	{
 		$this->add_actions();
 
-        if (is_admin()) {
-            $this->add_admin_actions();
-        }
+		if (is_admin()) {
+			$this->add_admin_actions();
+		}
 	}
 
 	private function add_actions()
@@ -196,11 +196,11 @@ class FW_Extension_Backup extends FW_Extension
 		}
 	}
 
-    /**
-     * @return FW_Backup_Interface_Storage[]
-     */
-    private function get_storage_list()
-    {
+	/**
+	 * @return FW_Backup_Interface_Storage[]
+	 */
+	private function get_storage_list()
+	{
 		static $storage_list;
 
 		if ($storage_list === null) {
@@ -213,7 +213,7 @@ class FW_Extension_Backup extends FW_Extension
 		}
 
 		return $storage_list;
-    }
+	}
 
 	public function get_storage($storage_id, $cron_id = false)
 	{

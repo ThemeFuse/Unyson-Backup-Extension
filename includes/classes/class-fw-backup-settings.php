@@ -321,8 +321,8 @@ class FW_Backup_Settings {
 										'desc'  => __( '1) Opens another window. Click Allow in the new window (you may need to login to Dropbox.com first).',
 											'fw' ),
 										'html'  => '<button data-action="backup-dropbox-authorize" data-uri="#" class="button button-primary">'
-										           . sprintf( __( 'Connect to Dropbox %s Authorize', 'fw' ), '&amp;' ) .
-										           '</button>',
+												   . sprintf( __( 'Connect to Dropbox %s Authorize', 'fw' ), '&amp;' ) .
+												   '</button>',
 									),
 									'auth_code'  => array(
 										'type'  => 'text',

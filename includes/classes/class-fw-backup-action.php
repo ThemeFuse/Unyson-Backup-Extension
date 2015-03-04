@@ -3,12 +3,12 @@
 class FW_Backup_Action
 {
 	public function __construct()
-    {
-	    if (is_admin()) {
-		    $this->add_admin_actions();
-		    $this->add_admin_filters();
-	    }
-    }
+	{
+		if (is_admin()) {
+			$this->add_admin_actions();
+			$this->add_admin_filters();
+		}
+	}
 
 	public function is_backup_restore()
 	{

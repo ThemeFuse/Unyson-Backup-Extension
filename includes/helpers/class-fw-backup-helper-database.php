@@ -212,19 +212,19 @@ class FW_Backup_Helper_Database
 		list ($table_list) = $this->query_schema();
 
 		$args = array(
-			'name' 				=> DB_NAME,
-			'user' 				=> DB_USER,
-			'pass' 				=> DB_PASSWORD,
-			'host' 				=> DB_HOST,
-			'search' 			=> '',
-			'replace' 			=> '',
-			'tables'			=> $table_list,
-			'dry_run' 			=> false,
-			'regex' 			=> false,
-			'pagesize' 			=> 50000,
-			'alter_engine' 		=> false,
-			'alter_collation' 	=> false,
-			'verbose'			=> false
+			'name'              => DB_NAME,
+			'user'              => DB_USER,
+			'pass'              => DB_PASSWORD,
+			'host'              => DB_HOST,
+			'search'            => '',
+			'replace'           => '',
+			'tables'            => $table_list,
+			'dry_run'           => false,
+			'regex'             => false,
+			'pagesize'          => 50000,
+			'alter_engine'      => false,
+			'alter_collation'   => false,
+			'verbose'           => false
 		);
 
 		$srdb = new icit_srdb($args);
@@ -376,7 +376,7 @@ class FW_Backup_Helper_Database
 						$wpdb->options
 					WHERE
 					    option_name = %s
-			    ", $theme_mods_before);
+				", $theme_mods_before);
 				$wpdb->query($query);
 
 				$query = $wpdb->prepare("

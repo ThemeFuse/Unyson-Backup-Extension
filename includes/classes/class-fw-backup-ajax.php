@@ -3,17 +3,17 @@
 class FW_Backup_Ajax
 {
 	public function __construct()
-    {
-	    if (is_admin()) {
-		    $this->add_admin_actions();
-	    }
-    }
+	{
+		if (is_admin()) {
+			$this->add_admin_actions();
+		}
+	}
 
-    private function add_admin_actions()
-    {
+	private function add_admin_actions()
+	{
 		add_action('wp_ajax_backup-settings-save', array($this, '_admin_action_wp_ajax_backup_settings_save'));
 		add_action('wp_ajax_backup-feedback', array($this, '_admin_action_wp_ajax_backup_feedback'));
-    }
+	}
 
 	/**
 	 * @internal

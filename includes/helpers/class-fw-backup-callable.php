@@ -18,26 +18,26 @@
  */
 class FW_Backup_Callable
 {
-    private $callable;
-    private $first_args;
+	private $callable;
+	private $first_args;
 
-    public function __construct($callable, $first_args)
-    {
-        $this->callable = $callable;
-        $this->first_args = $first_args;
-    }
+	public function __construct($callable, $first_args)
+	{
+		$this->callable = $callable;
+		$this->first_args = $first_args;
+	}
 
-    public function forward()
-    {
-        $second_args = func_get_args();
-        return call_user_func_array($this->callable, array_merge($this->first_args, $second_args));
-    }
+	public function forward()
+	{
+		$second_args = func_get_args();
+		return call_user_func_array($this->callable, array_merge($this->first_args, $second_args));
+	}
 
-    static public function make($callable)
-    {
-        $first_args = func_get_args();
-        array_shift($first_args);
+	static public function make($callable)
+	{
+		$first_args = func_get_args();
+		array_shift($first_args);
 
-        return array(new self($callable, $first_args), 'forward');
-    }
+		return array(new self($callable, $first_args), 'forward');
+	}
 }

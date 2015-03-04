@@ -2,10 +2,10 @@
 
 abstract class FW_Extension_Backup_Storage extends FW_Extension implements FW_Backup_Interface_Storage
 {
-    public function get_storage_options()
-    {
-        return array();
-    }
+	public function get_storage_options()
+	{
+		return array();
+	}
 
 	public function set_storage_options($values)
 	{
@@ -17,11 +17,11 @@ abstract class FW_Extension_Backup_Storage extends FW_Extension implements FW_Ba
 	}
 
 	/**
-     * @internal
-     */
-    public function _init()
-    {
-    }
+	 * @internal
+	 */
+	public function _init()
+	{
+	}
 
 	/**
 	 * @return FW_Extension_Backup

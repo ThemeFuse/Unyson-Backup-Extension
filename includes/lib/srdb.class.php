@@ -238,21 +238,21 @@ class icit_srdb {
 	public function __construct( $args ) {
 
 		$args = array_merge( array(
-			'name' 				=> '',
-			'user' 				=> '',
-			'pass' 				=> '',
-			'host' 				=> '',
-			'search' 			=> '',
-			'replace' 			=> '',
-			'tables'			=> array(),
-			'exclude_cols' 		=> array(),
-			'include_cols' 		=> array(),
-			'dry_run' 			=> true,
-			'regex' 			=> false,
-			'pagesize' 			=> 50000,
-			'alter_engine' 		=> false,
-			'alter_collation' 	=> false,
-			'verbose'			=> false
+			'name'              => '',
+			'user'              => '',
+			'pass'              => '',
+			'host'              => '',
+			'search'            => '',
+			'replace'           => '',
+			'tables'            => array(),
+			'exclude_cols'      => array(),
+			'include_cols'      => array(),
+			'dry_run'           => true,
+			'regex'             => false,
+			'pagesize'          => 50000,
+			'alter_engine'      => false,
+			'alter_collation'   => false,
+			'verbose'           => false
 		), $args );
 
 		// handle exceptions
