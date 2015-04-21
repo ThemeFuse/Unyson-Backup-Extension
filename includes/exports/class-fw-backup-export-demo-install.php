@@ -12,7 +12,7 @@ class FW_Backup_Export_Demo_Install implements FW_Backup_Interface_Export
 
 		$db = new FW_Backup_Export_Database();
 		$fs = new FW_Backup_Export_File_System();
-		$zip_file = sprintf('%s/backup-demo-install-%s.zip', sys_get_temp_dir(), date('Y_m_d-H_i_s'));
+		$zip_file = sprintf('%s/backup-demo-install-%s.zip', get_temp_dir(), date('Y_m_d-H_i_s'));
 		$tmp_file = array();
 
 		try {

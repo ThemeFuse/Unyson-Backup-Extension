@@ -29,7 +29,7 @@ class FW_Backup_Export_Debug implements FW_Backup_Interface_Export
 		$feedback->set_progress('100%');
 		$feedback->set_task('Debugging Export Layer Done');
 
-		$filename = sprintf('%s/backup-debug-%s.txt', sys_get_temp_dir(), date('Y_m_d-H_i_s'));
+		$filename = sprintf('%s/backup-debug-%s.txt', get_temp_dir(), date('Y_m_d-H_i_s'));
 		file_put_contents($filename, __FILE__);
 		return $filename;
 	}

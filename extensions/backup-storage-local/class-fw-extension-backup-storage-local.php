@@ -66,7 +66,7 @@ class FW_Extension_Backup_Storage_Local extends FW_Extension_Backup_Storage
 			throw new FW_Backup_Exception('$backup_file should be of class FW_Backup_File_Local');
 		}
 
-		$tmp = tempnam(sys_get_temp_dir(), 'backup');
+		$tmp = tempnam(get_temp_dir(), 'backup');
 		if (!@copy($storage_file->get_path(), $tmp)) {
 			$error = error_get_last();
 			throw new FW_Backup_Exception(sprintf(__('copy(%s, %s) failed with message "%s"', 'fw'), $storage_file->get_path(), $tmp, $error['message']));

@@ -20,7 +20,7 @@ class FW_Backup_Export_Database implements FW_Backup_Interface_Export
 {
 	public function export(FW_Backup_Interface_Feedback $feedback)
 	{
-		$zip_file = sprintf('%s/backup-database-%s.zip', sys_get_temp_dir(), date('Y_m_d-H_i_s'));
+		$zip_file = sprintf('%s/backup-database-%s.zip', get_temp_dir(), date('Y_m_d-H_i_s'));
 		touch($zip_file);
 
 		$zip = new ZipArchive();
@@ -62,7 +62,7 @@ class FW_Backup_Export_Database implements FW_Backup_Interface_Export
 		$db = new FW_Backup_Helper_Database();
 		$backup = fw()->extensions->get('backup');
 
-		$filename = sprintf('%s/backup-database-%s.sql', sys_get_temp_dir(), date('Y_m_d-H_i_s'));
+		$filename = sprintf('%s/backup-database-%s.sql', get_temp_dir(), date('Y_m_d-H_i_s'));
 		$fp = fopen($filename, 'w');
 
 		$feedback->set_task(__('Querying database...', 'fw'));
