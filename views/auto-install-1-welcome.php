@@ -24,15 +24,22 @@ $demo_page_link = $backup->get_config('demo_page_link');
 		This action will also let you understand how the theme works by
 		allowing you to modify a content that is already there rather than
 		creating it from scratch.', '<a href="' . esc_attr($demo_page_link). '">', '</a>' ) ?></p>
+	<?php if ( class_exists( 'ZipArchive' ) ) : ?>
+		<div class="error">
+			<p>
+				<strong><?php _e('Important', 'fw') ?>:</strong> <?php printf(__('The demo content %s will replace %s all of your content (i.e. all of your content %s will be deleted %s).', 'fw'), '<strong>', '</strong>', '<strong>', '</strong>') ?>
+			</p>
+		</div>
 
-	<div class="error">
 		<p>
-			<strong><?php _e('Important', 'fw') ?>:</strong> <?php printf(__('The demo content %s will replace %s all of your content (i.e. all of your content %s will be deleted %s).', 'fw'), '<strong>', '</strong>', '<strong>', '</strong>') ?>
+			<a href="<?php echo esc_attr($backup->action()->url_backup_auto_install()) ?>" onclick="return window.confirm('<?php _e('All your current content will be deleted and replaced with the demo content of the theme!', 'fw'); ?>');" class="button button-primary"><?php _e('Import Demo Content', 'fw') ?></a>
 		</p>
-	</div>
-
-	<p>
-		<a href="<?php echo esc_attr($backup->action()->url_backup_auto_install()) ?>" onclick="return window.confirm('<?php _e('All your current content will be deleted and replaced with the demo content of the theme!', 'fw'); ?>');" class="button button-primary"><?php _e('Import Demo Content', 'fw') ?></a>
-	</p>
-
+	<?php else: ?>
+		<div class="error">
+			<p>
+				<strong><?php _e( 'Important', 'fw' ) ?>
+					:</strong> <?php printf( __( 'For importing demo content, you need to activate <a href="%s">zip extension</a>.', 'fw' ), 'http://php.net/manual/en/book.zip.php' ) ?>
+			</p>
+		</div>
+	<?php endif; ?>
 </div>

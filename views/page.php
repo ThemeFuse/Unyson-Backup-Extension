@@ -38,6 +38,15 @@ foreach ( $backup->cron()->get_cron_job_list() as $cron_job ) {
 		</div>
 	<?php endif ?>
 
+	<?php if ( !class_exists('ZipArchive') ): ?>
+		<div class="backup-alert error below-h2">
+			<p>
+				<strong><?php _e( 'Important', 'fw' ) ?>
+					:</strong> <?php printf( __( 'You need to activate <a href="%s">zip extension</a>.', 'fw' ), 'http://php.net/manual/en/book.zip.php' ) ?>
+			</p>
+		</div>
+	<?php endif ?>
+
 	<?php if ( count( $active ) == 0 ): ?>
 
 		<div class="backup-alert error below-h2">
