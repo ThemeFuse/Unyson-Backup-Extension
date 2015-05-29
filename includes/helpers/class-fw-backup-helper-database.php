@@ -341,6 +341,25 @@ class FW_Backup_Helper_Database
 
 		wp_cache_flush();
 
+		$fw_extensions_data = get_option('fw_extensions', array());
+		if(!empty($fw_extensions_data[$this->backup()->get_name()]['wp_upload_dir']['baseurl']) && $fix_foreign_database){
+			$wp_upload_dir = wp_upload_dir();
+
+			// Fix database
+			if ($fix_foreign_database) {
+				$helper->fix_foreign_database( array(
+					fw_get_url_without_scheme($fw_extensions_data[$this->backup()->get_name()]['wp_upload_dir']['baseurl'])  => fw_get_url_without_scheme($wp_upload_dir['baseurl']),
+					str_replace( '/', '\/', fw_get_url_without_scheme( $fw_extensions_data[$this->backup()->get_name()]['wp_upload_dir']['baseurl'] . '/' ) )    => str_replace( '/', '\/', fw_get_url_without_scheme( $wp_upload_dir['baseurl'] . '/' ) ),
+					str_replace( '/', '\\\/', fw_get_url_without_scheme( $fw_extensions_data[$this->backup()->get_name()]['wp_upload_dir']['baseurl'] . '/' ) )  => str_replace( '/', '\\\/', fw_get_url_without_scheme( $wp_upload_dir['baseurl'] . '/' ) ),
+					str_replace( '/', '\\\\/', fw_get_url_without_scheme( $fw_extensions_data[$this->backup()->get_name()]['wp_upload_dir']['baseurl'] . '/' ) ) => str_replace( '/', '\\\\/', fw_get_url_without_scheme( $wp_upload_dir['baseurl'] . '/' ) ),
+				), $foreign_prefix );
+			}
+		}
+
+		// Restore Backup History and Settings
+		$exporter->import_history($history);
+		$exporter->import_settings($settings);
+
 		// Fix database
 		if ($fix_foreign_database) {
 			$helper->fix_foreign_database( array(
@@ -354,10 +373,6 @@ class FW_Backup_Helper_Database
 		}
 
 		wp_cache_flush();
-
-		// Restore Backup History and Settings
-		$exporter->import_history($history);
-		$exporter->import_settings($settings);
 
 		// Restore options
 		if ($keep_options) {

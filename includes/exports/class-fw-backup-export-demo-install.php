@@ -23,6 +23,9 @@ class FW_Backup_Export_Demo_Install implements FW_Backup_Interface_Export
 			}
 
 			$upload_dir = wp_upload_dir();
+
+			fw_set_db_extension_data($this->backup()->get_name(), 'wp_upload_dir', $upload_dir);
+
 			$upload_dir = $upload_dir['basedir'];
 			$stylesheet_dir = get_stylesheet_directory();
 			$template_dir = get_template_directory();
