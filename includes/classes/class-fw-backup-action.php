@@ -10,6 +10,12 @@ class FW_Backup_Action
 		}
 	}
 
+	public function do_import_demo_content() {
+		$process = new FW_Backup_Process_Auto_Install();
+
+		return $process->run_with_initialized_file_system();
+	}
+
 	public function is_backup_restore()
 	{
 		$nonce = FW_Request::REQUEST('_wpnonce');

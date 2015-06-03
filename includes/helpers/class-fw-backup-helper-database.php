@@ -322,6 +322,8 @@ class FW_Backup_Helper_Database
 			'current_theme'
 		);
 
+		$option_list = apply_filters('fw_ext_backup_import_skip_options', $option_list);
+
 		// Preserve some options
 		$before = array_map('get_option', $option_list);
 		$before = array_combine($option_list, $before);
