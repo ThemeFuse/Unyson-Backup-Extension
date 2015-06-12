@@ -27,9 +27,7 @@ class FW_Backup_Cron
 		);
 
 		foreach (wp_get_schedules() as $id => $schedule) {
-			if (strpos($id, 'backup.') === 0) {
 				$schedules[$id] = $schedule['display'];
-			}
 		}
 
 		return $schedules;
@@ -201,9 +199,8 @@ class FW_Backup_Cron
 			$schedules['backup.4min'] = array('interval' => 4*MINUTE_IN_SECONDS, 'display' => __('4 min', 'fw'));
 		}
 
-		$schedules['backup.daily'] = array('interval' => DAY_IN_SECONDS, 'display' => __('Daily', 'fw'));
-		$schedules['backup.weekly'] = array('interval' => WEEK_IN_SECONDS, 'display' => __('Weekly', 'fw'));
-		$schedules['backup.monthly'] = array('interval' => 4*WEEK_IN_SECONDS, 'display' => __('Monthly', 'fw'));
+		$schedules['weekly']  = array( 'interval' => WEEK_IN_SECONDS, 'display' => __( 'Once Weekly', 'fw' ) );
+		$schedules['monthly'] = array( 'interval' => 4 * WEEK_IN_SECONDS, 'display' => __( 'Once Monthly', 'fw' ) );
 
 		return $schedules;
 	}
