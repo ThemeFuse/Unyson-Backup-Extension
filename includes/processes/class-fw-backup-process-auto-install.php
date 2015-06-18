@@ -73,7 +73,9 @@ class FW_Backup_Process_Auto_Install
 		try {
 
 			// Do Full Backup before Auto Install
-			$this->backup()->action()->do_backup_background_cron( 'cron_full' );
+			if ( ( apply_filters( 'fw_ext_backup_do_backup_on_demo_content_install', true ) ) ) {
+				$this->backup()->action()->do_backup_background_cron( 'cron_full' );
+			}
 
 			// Replace uploads directory
 			$t = $fs->replace( $fs->map( $upload_dir ), $fs->map( "$auto_install_dir/uploads" ) );
