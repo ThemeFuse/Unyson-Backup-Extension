@@ -23,12 +23,25 @@ class FW_Extension_Backup_Storage_Local extends FW_Extension_Backup_Storage
 		header('Content-Length: ' . filesize($file));
 		header('Content-Disposition: attachment; filename="'.addslashes(basename($file)).'"');
 
-		readfile($file);
+		$this->read_large_file( $file );
 		exit;
 
 		// Direct links to uploads/backup dir is forbidden for security reasons.
 		// wp_redirect(site_url(str_replace(DIRECTORY_SEPARATOR, '/', substr($storage_file->get_path(), strlen(realpath(ABSPATH))))));
 		// exit;
+	}
+
+	private function read_large_file( $file ) {
+		$fp = fopen( $file, 'rb' );
+
+		if ( $fp ) {
+			while ( ! feof( $fp ) ) {
+				print( fread( $fp, 2097152 ) );
+				flush();
+			}
+
+			fclose( $fp );
+		}
 	}
 
 	public function ping(FW_Backup_Interface_Feedback $feedback)
