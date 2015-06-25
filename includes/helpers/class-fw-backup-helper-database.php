@@ -289,14 +289,14 @@ class FW_Backup_Helper_Database
 		}
 	}
 
-	public function import($sql_file, $keep_users_table = false, $fix_foreign_database = false, $keep_options = false)
+	public function import($sql_file, $keep_users_tables = false, $fix_foreign_database = false, $keep_options = false)
 	{
 		$fp = fopen($sql_file, 'r');
-		$this->import_fp($fp, $keep_users_table, $fix_foreign_database, $keep_options);
+		$this->import_fp($fp, $keep_users_tables, $fix_foreign_database, $keep_options);
 		fclose($fp);
 	}
 
-	public function import_fp($fp, $keep_users_table = false, $fix_foreign_database = false, $keep_options = false)
+	public function import_fp($fp, $keep_users_tables = false, $fix_foreign_database = false, $keep_options = false)
 	{
 		/**
 		 * @var wpdb $wpdb
@@ -334,8 +334,8 @@ class FW_Backup_Helper_Database
 
 		// Import database (preserve user related tables)
 		// ==============================================
-		if ($keep_users_table) {
-			$foreign_prefix = $exporter->import_fp($fp, array($wpdb->users));
+		if ($keep_users_tables) {
+			$foreign_prefix = $exporter->import_fp($fp, array($wpdb->users, $wpdb->usermeta));
 		}
 		else {
 			$foreign_prefix = $exporter->import_fp($fp);

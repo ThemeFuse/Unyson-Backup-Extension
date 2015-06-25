@@ -43,8 +43,8 @@ class FW_Backup_Export_Demo_Install implements FW_Backup_Interface_Export
 			$fs->append_zip($zip, $upload_dir, basename($template_dir) . '/auto-install/uploads/', $feedback);
 
 			$options_where = "WHERE option_name NOT LIKE 'fw_backup.%%' AND option_name NOT IN ('ftp_credentials', 'mailserver_url', 'mailserver_login', 'mailserver_pass', 'mailserver_port', 'admin_email')";
-			$exclude_table = array($wpdb->users);
-			$zip->addFile($tmp_file[] = $db->export_sql($feedback, $options_where, $exclude_table), basename($template_dir) . '/auto-install/database.txt');
+			$exclude_tables = array($wpdb->users, $wpdb->usermeta);
+			$zip->addFile($tmp_file[] = $db->export_sql($feedback, $options_where, $exclude_tables), basename($template_dir) . '/auto-install/database.txt');
 
 			$feedback->set_task(__('Compressing files...', 'fw'));
 			$zip->close();

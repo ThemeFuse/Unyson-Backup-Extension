@@ -51,7 +51,7 @@ class FW_Backup_Export_Database implements FW_Backup_Interface_Export
 		return $zip_file;
 	}
 
-	public function export_sql(FW_Backup_Interface_Feedback $feedback, $options_where = "WHERE option_name NOT LIKE 'fw_backup.%%'", $exclude_table = array())
+	public function export_sql(FW_Backup_Interface_Feedback $feedback, $options_where = "WHERE option_name NOT LIKE 'fw_backup.%%'", $exclude_tables = array())
 	{
 		/**
 		 * @var FW_Extension_Backup $backup
@@ -88,7 +88,7 @@ class FW_Backup_Export_Database implements FW_Backup_Interface_Export
 		fwrite($fp, PHP_EOL.PHP_EOL);
 
 		$a = array_combine($table_list, $create_table_list);
-		$a = array_diff_key($a, array_flip($exclude_table));
+		$a = array_diff_key($a, array_flip($exclude_tables));
 
 		$feedback->set_task(__('Dumping tables...', 'fw'), count($a));
 
@@ -141,12 +141,12 @@ class FW_Backup_Export_Database implements FW_Backup_Interface_Export
 		return $filename;
 	}
 
-	public function import_sql_file($file, $exclude_table = array())
+	public function import_sql_file($file, $exclude_tables = array())
 	{
 		$fp = fopen($file, 'r');
 
 		try {
-			$table_prefix = $this->import_fp($fp, $exclude_table);
+			$table_prefix = $this->import_fp($fp, $exclude_tables);
 		}
 		catch (FW_Backup_Exception $exception) {
 		}
@@ -161,7 +161,7 @@ class FW_Backup_Export_Database implements FW_Backup_Interface_Export
 		return $table_prefix;
 	}
 
-	public function import_fp($fp, $exclude_table = array())
+	public function import_fp($fp, $exclude_tables = array())
 	{
 		// Warning: fseek(): stream does not support seeking in .../framework/extensions/backup/includes/exports/class-fw-backup-export-database.php
 		// This is due to the fact that $fp is coming from .zip archive
@@ -179,8 +179,8 @@ class FW_Backup_Export_Database implements FW_Backup_Interface_Export
 
 		list ($table_list, $view_list) = $db->query_schema();
 
-		array_map(array($db, 'drop_table'), array_diff($table_list, $exclude_table));
-		array_map(array($db, 'drop_view'), array_diff($view_list, $exclude_table));
+		array_map(array($db, 'drop_table'), array_diff($table_list, $exclude_tables));
+		array_map(array($db, 'drop_view'), array_diff($view_list, $exclude_tables));
 
 		$db->foreach_statement($fp, FW_Backup_Callable::make(array($this, '_query'), $headers, $db));
 
