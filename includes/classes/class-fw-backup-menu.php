@@ -20,10 +20,6 @@ class FW_Backup_Menu
 	public function _admin_action_admin_menu()
 	{
 		if ($this->backup()->get_auto_install_dir()) {
-			// Remove Tools/Import and Tools/Export sub-menus
-			remove_submenu_page('tools.php', 'import.php');
-			remove_submenu_page('tools.php', 'export.php');
-
 			add_management_page(__('Content Install', 'fw'), __('Content Install', 'fw'), 'manage_options', 'auto-install', array($this, '_auto_install_page'));
 		}
 	}
