@@ -319,7 +319,8 @@ class FW_Backup_Helper_Database
 			// directory to be renamed in auto-install archives
 			'template',
 			'stylesheet',
-			'current_theme'
+			'current_theme',
+			'WPLANG'
 		);
 
 		$option_list = apply_filters('fw_ext_backup_import_skip_options', $option_list);
