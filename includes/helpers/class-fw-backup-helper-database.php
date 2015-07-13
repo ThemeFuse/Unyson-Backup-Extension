@@ -253,18 +253,20 @@ class FW_Backup_Helper_Database
 	 * This method should be called after importing .sql dump from
 	 * different host
 	 */
-	public function fix_foreign_database($search_replace, $foreign_prefix)
+	public function fix_foreign_database($search_replace)
 	{
+		$this->search_replace($search_replace);
+	}
+
+	public function fix_wp_options( $foreign_prefix ) {
 		/**
 		 * @var wpdb $wpdb
 		 */
 
 		global $wpdb;
 
-		$this->search_replace($search_replace);
-
-		$esc_like = array($wpdb, 'esc_like');
-		if (!is_callable($esc_like)) {
+		$esc_like = array( $wpdb, 'esc_like' );
+		if ( ! is_callable( $esc_like ) ) {
 			$esc_like = 'like_escape';
 		}
 
@@ -274,8 +276,8 @@ class FW_Backup_Helper_Database
 		//     You do not have sufficient permissions to access this page.
 		//
 		// The following code should fix that.
-		foreach (array($wpdb->usermeta => 'meta_key', $wpdb->options => 'option_name') as $table => $field) {
-			$query = $wpdb->prepare("
+		foreach ( array( $wpdb->options => 'option_name' ) as $table => $field ) {
+			$query = $wpdb->prepare( "
 				UPDATE
 					$table
 				SET
@@ -283,9 +285,9 @@ class FW_Backup_Helper_Database
 				WHERE
 					$field LIKE %s
 			",
-				strlen($foreign_prefix), $wpdb->prefix, call_user_func($esc_like, $foreign_prefix) . '%'
+				strlen( $foreign_prefix ), $wpdb->prefix, call_user_func( $esc_like, $foreign_prefix ) . '%'
 			);
-			$wpdb->query($query);
+			$wpdb->query( $query );
 		}
 	}
 
@@ -355,7 +357,7 @@ class FW_Backup_Helper_Database
 					str_replace( '/', '\/', fw_get_url_without_scheme( $fw_extensions_data[$this->backup()->get_name()]['wp_upload_dir']['baseurl'] . '/' ) )    => str_replace( '/', '\/', fw_get_url_without_scheme( $wp_upload_dir['baseurl'] . '/' ) ),
 					str_replace( '/', '\\\/', fw_get_url_without_scheme( $fw_extensions_data[$this->backup()->get_name()]['wp_upload_dir']['baseurl'] . '/' ) )  => str_replace( '/', '\\\/', fw_get_url_without_scheme( $wp_upload_dir['baseurl'] . '/' ) ),
 					str_replace( '/', '\\\\/', fw_get_url_without_scheme( $fw_extensions_data[$this->backup()->get_name()]['wp_upload_dir']['baseurl'] . '/' ) ) => str_replace( '/', '\\\\/', fw_get_url_without_scheme( $wp_upload_dir['baseurl'] . '/' ) ),
-				), $foreign_prefix );
+				));
 			}
 		}
 
@@ -372,7 +374,9 @@ class FW_Backup_Helper_Database
 				str_replace( '/', '\/', fw_get_url_without_scheme( site_url() . '/' ) )    => str_replace( '/', '\/', fw_get_url_without_scheme( $before['siteurl'] . '/' ) ),
 				str_replace( '/', '\\\/', fw_get_url_without_scheme( site_url() . '/' ) )  => str_replace( '/', '\\\/', fw_get_url_without_scheme( $before['siteurl'] . '/' ) ),
 				str_replace( '/', '\\\\/', fw_get_url_without_scheme( site_url() . '/' ) ) => str_replace( '/', '\\\\/', fw_get_url_without_scheme( $before['siteurl'] . '/' ) ),
-			), $foreign_prefix );
+			) );
+
+			$helper->fix_wp_options( $foreign_prefix );
 		}
 
 		wp_cache_flush();
