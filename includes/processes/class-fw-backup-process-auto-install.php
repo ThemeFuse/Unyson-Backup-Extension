@@ -27,6 +27,7 @@ class FW_Backup_Process_Auto_Install
 
 			// Do Full Backup before Auto Install
 			if ( ( apply_filters( 'fw_ext_backup_do_backup_on_demo_content_install', true ) ) ) {
+				@set_time_limit( 300 );
 				$this->backup()->action()->do_backup_background_cron( 'cron_full' );
 			}
 
@@ -76,6 +77,7 @@ class FW_Backup_Process_Auto_Install
 
 			// Do Full Backup before Auto Install
 			if ( ( apply_filters( 'fw_ext_backup_do_backup_on_demo_content_install', true ) ) ) {
+				@set_time_limit( 300 );
 				$this->backup()->action()->do_backup_background_cron( 'cron_full' );
 			}
 
