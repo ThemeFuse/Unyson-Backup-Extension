@@ -49,8 +49,6 @@ class FW_Backup_Process_Auto_Install
 				}
 			}
 			$db->import($file_with_sql, true, true, true);
-
-			do_action( 'fw_ext_backup_after_import_demo_content' );
 		}
 		catch (FW_Backup_Exception $exception) {
 			FW_Flash_Messages::add('auto-install', $exception->getMessage(), 'error');
@@ -58,6 +56,8 @@ class FW_Backup_Process_Auto_Install
 			wp_redirect($this->backup()->action()->url_backup_auto_install_page());
 			exit;
 		}
+
+		do_action( 'fw_ext_backup_after_import_demo_content' );
 
 		// get rid of update notifications
 		wp_redirect(admin_url('update-core.php?force-check=1&auto-install-redirect=' . esc_url(admin_url())));
@@ -99,11 +99,6 @@ class FW_Backup_Process_Auto_Install
 			}
 			$db->import( $file_with_sql, true, true, true );
 
-			do_action( 'fw_ext_backup_after_import_demo_content' );
-
-			return array(
-				'success' => true
-			);
 		} catch ( FW_Backup_Exception $exception ) {
 			return array(
 				'success' => false,
@@ -112,6 +107,12 @@ class FW_Backup_Process_Auto_Install
 				)
 			);
 		}
+
+		do_action( 'fw_ext_backup_after_import_demo_content' );
+
+		return array(
+			'success' => true
+		);
 	}
 
 	/**
