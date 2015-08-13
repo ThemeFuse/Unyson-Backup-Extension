@@ -132,7 +132,7 @@ class FW_Backup_Helper_File_System
 					$zip->addFile($file, $local_name);
 				}
 				else {
-					// $log->append("error: could not read file $file");
+					error_log('error: could not read file:'.$file);
 				}
 			}
 			$feedback->set_progress($index);

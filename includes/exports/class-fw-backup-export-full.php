@@ -8,6 +8,7 @@ class FW_Backup_Export_Full implements FW_Backup_Interface_Export
 		$fs = new FW_Backup_Export_File_System();
 		$zip_file = sprintf('%s/backup-full-%s.zip', get_temp_dir(), date('Y_m_d-H_i_s'));
 		$tmp_file = array();
+		@set_time_limit(5 * 60);
 
 		try {
 			touch($zip_file);

@@ -25,6 +25,14 @@ foreach ( $backup->cron()->get_cron_job_list() as $cron_job ) {
 	}
 }
 
+$http_loopback_warning = false;
+if (!FW_Request::GET('feedback') && ( ! defined('ALTERNATE_WP_CRON') || ! ALTERNATE_WP_CRON )) {
+	$http_loopback_connection = fw_ext_backup_loopback_test();
+	if ( ! $http_loopback_connection['success']) {
+		$http_loopback_warning = $http_loopback_connection['data']['message'];
+	}
+}
+
 ?>
 
 <p class="backup-subtitle description"
@@ -46,7 +54,14 @@ foreach ( $backup->cron()->get_cron_job_list() as $cron_job ) {
 			</p>
 		</div>
 	<?php endif ?>
-
+	<?php if($http_loopback_warning) : ?>
+		<div class="error">
+			<p>
+				<strong><?php _e( 'Important', 'fw' ) ?>
+					:</strong> <?php  echo __( 'HTTP Loopback Connections are not enabled on this server. Add define(\'ALTERNATE_WP_CRON\', true); to your wp-config.php.', 'fw'); echo ' ' .$http_loopback_warning; ?>
+			</p>
+		</div>
+	<?php endif; ?>
 	<?php if ( count( $active ) == 0 ): ?>
 
 		<div class="backup-alert error below-h2">

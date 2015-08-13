@@ -25,7 +25,6 @@ require "$d/helpers/class-fw-backup-helper-database.php";
 require "$d/helpers/class-fw-backup-helper-file-system.php";
 require "$d/helpers/class-fw-backup-callable.php";
 require "$d/helpers/class-fw-backup-helper-string.php";
-require "$d/helpers/class-fw-backup-debug.php";
 
 require "$d/classes/class-fw-backup-settings.php";
 require "$d/classes/class-fw-backup-cron.php";
