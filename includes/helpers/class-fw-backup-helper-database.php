@@ -345,6 +345,7 @@ class FW_Backup_Helper_Database
 		}
 
 		wp_cache_flush();
+		FW_Cache::clear();
 
 		$fw_extensions_data = get_option('fw_extensions', array());
 		if(!empty($fw_extensions_data[$this->backup()->get_name()]['wp_upload_dir']['baseurl']) && $fix_foreign_database){
