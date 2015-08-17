@@ -27,6 +27,7 @@
 	display: inline-block;
 	margin: 0;
 	vertical-align: -5px;
+	visibility: visible;
 }
 
 a.backup-icon-remove {
