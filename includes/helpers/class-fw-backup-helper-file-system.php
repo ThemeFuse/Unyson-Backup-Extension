@@ -320,7 +320,7 @@ class FW_Backup_Helper_File_System
 
 		global $wp_filesystem;
 
-		$d = $wp_filesystem->abspath() . uniqid('check_permissions_');
+		$d = $wp_filesystem->wp_content_dir() . uniqid('check_permissions_');
 		if ($wp_filesystem->mkdir($d)) {
 			$wp_filesystem->rmdir($d);
 			return true;
