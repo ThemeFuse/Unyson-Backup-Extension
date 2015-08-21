@@ -381,6 +381,7 @@ class FW_Backup_Helper_Database
 		}
 
 		wp_cache_flush();
+		FW_Cache::clear();
 
 		// Restore options
 		if ($keep_options) {
@@ -422,6 +423,7 @@ class FW_Backup_Helper_Database
 		$this->backup()->cron()->reschedule();
 
 		wp_cache_flush();
+		FW_Cache::clear();
 	}
 
 	/**
