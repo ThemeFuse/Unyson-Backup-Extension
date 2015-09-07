@@ -211,11 +211,16 @@ class FW_Backup_Helper_Database
 	{
 		list ($table_list) = $this->query_schema();
 
+		$temp = explode(':', DB_HOST);
+		$db_host = (!empty($temp['0'])) ? $temp['0'] : DB_HOST;
+		$db_port = (!empty($temp['1'])) ? $temp['1'] : null;
+
 		$args = array(
 			'name'              => DB_NAME,
 			'user'              => DB_USER,
 			'pass'              => DB_PASSWORD,
-			'host'              => DB_HOST,
+			'host'              => $db_host,
+			'port'              => $db_port,
 			'search'            => '',
 			'replace'           => '',
 			'tables'            => $table_list,
