@@ -480,8 +480,7 @@ class icit_srdb {
 	public function connect_pdo() {
 	
 		try {
-			$dsn = (version_compare(phpversion(), '5.5', '>=')) ? "mysql:host={$this->host};port={$this->port};dbname={$this->name}" : "mysql:host={$this->host};dbname={$this->name}";
-			$connection = new PDO( $dsn, $this->user, $this->pass );
+			$connection = new PDO( "mysql:host={$this->host};port={$this->port};dbname={$this->name}", $this->user, $this->pass );
 		} catch( PDOException $e ) {
 			$this->add_error( $e->getMessage(), 'db' );
 			$connection = false;
