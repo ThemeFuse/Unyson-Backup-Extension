@@ -19,6 +19,7 @@ class FW_Extension_Backup_Storage_Local extends FW_Extension_Backup_Storage
 			throw new FW_Backup_Exception("Cannot read file $file");
 		}
 
+		ob_clean();
 		header('Content-Type: application/zip');
 		header('Content-Length: ' . filesize($file));
 		header('Content-Disposition: attachment; filename="'.addslashes(basename($file)).'"');

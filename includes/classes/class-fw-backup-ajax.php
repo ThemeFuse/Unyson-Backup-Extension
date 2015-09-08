@@ -38,7 +38,7 @@ class FW_Backup_Ajax
 	public function _admin_action_wp_ajax_backup_feedback()
 	{
 		$subject = FW_Request::POST('subject');
-
+		ob_clean();
 		if ($feedback = $this->backup()->get_feedback($subject)) {
 			$html = $this->backup()->render_str('feedback', compact('subject'));
 			wp_send_json_success(compact('html'));
