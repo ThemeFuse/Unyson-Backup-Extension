@@ -314,6 +314,9 @@ class FW_Backup_Helper_Database
 		$helper = new FW_Backup_Helper_Database();
 		$exporter = new FW_Backup_Export_Database();
 
+		/**
+		 * fixme: all options should have bool for wp_option autoload | array( 'option_name' => (bool)autoload )
+		 */
 		$option_list = array(
 			$wpdb->prefix . 'user_roles',
 			'siteurl',
