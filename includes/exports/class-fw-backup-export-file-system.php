@@ -18,6 +18,13 @@ class FW_Backup_Export_File_System
 		$upload_dir = wp_upload_dir();
 		$exclude[]  = $upload_dir['basedir'] . '/fw-style.css';
 
+		 if($backup->get_config('image_recovery')){
+			 $image_recovery = new FW_Backup_Image_Recovery();
+			 $exclude = array_merge($exclude, $image_recovery->remove_attachment_images());
+		 }
+
+
+
 		list ($file_list, $file_size) = $fs->file_list_exclude($root, $exclude);
 
 		$feedback->set_task(sprintf(__('%d file(s) found [%s]', 'fw'), count($file_list), $fs->format_bytes(array_sum($file_size))));
