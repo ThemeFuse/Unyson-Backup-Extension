@@ -89,7 +89,7 @@ class FW_Backup_Image_Recovery {
 
 	public function callback_filter_intermediate_image_sizes_advanced( $sizes ) {
 
-		$meta = wp_get_attachment_metadata( FW_Extension_Image_Regenerator::$attachment_id );
+		$meta = wp_get_attachment_metadata( FW_Backup_Image_Recovery::$attachment_id );
 
 		$uploadpath           = wp_upload_dir();
 		$exclude              = array();
