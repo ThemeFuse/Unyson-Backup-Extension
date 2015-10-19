@@ -82,7 +82,9 @@ class FW_Backup_Image_Recovery {
 	}
 
 	public function callback_filter_generate_attachment_metadata( $metadata ) {
-		$metadata['sizes'] = array_merge( $metadata['sizes'], FW_Backup_Image_Recovery::$common_sizes );
+		if(!empty($tmp['sizes'])) {
+			$metadata['sizes'] = array_merge( $metadata['sizes'], FW_Backup_Image_Recovery::$common_sizes );
+		}
 
 		return $metadata;
 	}
