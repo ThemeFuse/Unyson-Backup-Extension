@@ -58,12 +58,12 @@ class FW_Backup_Process_Auto_Install
 			exit;
 		}
 
-		do_action( 'fw_ext_backup_after_import_demo_content' );
-
 		if ( $this->backup()->get_config( 'image_recovery' ) ) {
 			$image_recovery = new FW_Backup_Image_Recovery();
 			$image_recovery->generate_attachment_images();
 		}
+
+		do_action( 'fw_ext_backup_after_import_demo_content' );
 
 		// get rid of update notifications
 		wp_redirect(admin_url('update-core.php?force-check=1&auto-install-redirect=' . esc_url(admin_url())));
@@ -113,6 +113,11 @@ class FW_Backup_Process_Auto_Install
 					'message' => $exception->getMessage()
 				)
 			);
+		}
+
+		if ( $this->backup()->get_config( 'image_recovery' ) ) {
+			$image_recovery = new FW_Backup_Image_Recovery();
+			$image_recovery->generate_attachment_images();
 		}
 
 		do_action( 'fw_ext_backup_after_import_demo_content' );
